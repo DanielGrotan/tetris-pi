@@ -6,4 +6,5 @@ edition = "2024"
 [dependencies]
 crossfire = "3.1.19"
 evdev = "0.13.2"
+rand = "0.10.2"
 sensehat-screen = "0.2.6"
