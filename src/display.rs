@@ -36,14 +36,20 @@ impl Display {
         }
 
         if game.is_game_over() {
+            for row in &mut rows {
+                for pixel in row {
+                    *pixel = pixel.dim(0.25);
+                }
+            }
+
             for x in 0..8 {
-                rows[0][x] = PixelColor::WHITE;
-                rows[7][x] = PixelColor::WHITE;
+                rows[0][x] = PixelColor::RED;
+                rows[7][x] = PixelColor::RED;
             }
 
             for y in 0..8 {
-                rows[y][0] = PixelColor::WHITE;
-                rows[y][7] = PixelColor::WHITE;
+                rows[y][0] = PixelColor::RED;
+                rows[y][7] = PixelColor::RED;
             }
         }
 
