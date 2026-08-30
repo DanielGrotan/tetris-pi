@@ -26,7 +26,7 @@ pub fn spawn() -> crossfire::Rx<spsc::Array<Input>> {
                 Ok(events) => events,
                 Err(error) => {
                     eprintln!("joystick error: {error}");
-                    break;
+                    return;
                 }
             };
 
@@ -43,8 +43,9 @@ pub fn spawn() -> crossfire::Rx<spsc::Array<Input>> {
                     Direction::Enter => Input::Press,
                 };
 
-                if tx.send(input).is_err() {
-                    return;
+                match tx.try_send(input) {
+                    Err(crossfire::TrySendError::Disconnected(_)) => return,
+                    _ => {}
                 }
             }
         }
