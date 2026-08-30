@@ -4,3 +4,5 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+sensehat-screen = "0.2.6"
+sensehat-stick = "0.1.0"
