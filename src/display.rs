@@ -35,6 +35,18 @@ impl Display {
             }
         }
 
+        if game.is_game_over() {
+            for x in 0..8 {
+                rows[0][x] = PixelColor::RED;
+                rows[7][x] = PixelColor::RED;
+            }
+
+            for y in 0..8 {
+                rows[y][0] = PixelColor::RED;
+                rows[y][7] = PixelColor::RED;
+            }
+        }
+
         let frame = PixelFrame::from_rows(&rows);
         self.screen.write_frame(&frame.frame_line());
     }

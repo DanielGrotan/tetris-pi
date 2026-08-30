@@ -22,6 +22,7 @@ pub struct Game {
     bag: Vec<Kind>,
     gravity_timer: Duration,
     gravity_interval: Duration,
+    game_over: bool,
 }
 
 impl Game {
@@ -32,6 +33,7 @@ impl Game {
             bag: Vec::new(),
             gravity_timer: Duration::ZERO,
             gravity_interval: Duration::from_secs(1),
+            game_over: false,
         };
 
         game.spawn_piece();
@@ -40,6 +42,10 @@ impl Game {
     }
 
     pub fn update(&mut self, dt: Duration) {
+        if self.game_over {
+            return;
+        }
+
         self.gravity_timer += dt;
 
         while self.gravity_timer >= self.gravity_interval {
@@ -54,6 +60,10 @@ impl Game {
     }
 
     pub fn handle_input(&mut self, input: Input) {
+        if self.game_over {
+            return;
+        }
+
         match input {
             Input::Up => {
                 self.rotate_piece();
@@ -79,6 +89,10 @@ impl Game {
 
     pub fn piece(&self) -> &Piece {
         &self.piece
+    }
+
+    pub fn is_game_over(&self) -> bool {
+        self.game_over
     }
 
     fn move_piece(&mut self, dx: i32, dy: i32) -> bool {
@@ -150,7 +164,14 @@ impl Game {
 
     fn spawn_piece(&mut self) {
         let kind = self.next_kind();
-        self.piece = Piece::new(kind, 4, 0);
+        let piece = Piece::new(kind, 4, 0);
+
+        if !self.can_place(&piece) {
+            self.game_over = true;
+            return;
+        }
+
+        self.piece = piece;
     }
 
     fn next_kind(&mut self) -> Kind {
