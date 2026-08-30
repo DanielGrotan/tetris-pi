@@ -61,6 +61,10 @@ impl Game {
 
     pub fn handle_input(&mut self, input: Input) {
         if self.game_over {
+            if matches!(input, input::Press) {
+                self.reset();
+            }
+
             return;
         }
 
@@ -191,5 +195,14 @@ impl Game {
         }
 
         self.bag.pop().unwrap()
+    }
+
+    fn reset(&mut self) {
+        self.board = [[Cell::Empty; WIDTH]; HEIGHT];
+        self.bag.clear();
+        self.gravity_timer = Duration::ZERO;
+        self.game_over = false;
+
+        self.spawn_piece();
     }
 }
