@@ -61,7 +61,7 @@ impl Game {
 
     pub fn handle_input(&mut self, input: Input) {
         if self.game_over {
-            if matches!(input, input::Press) {
+            if matches!(input, Input::Press) {
                 self.reset();
             }
 
