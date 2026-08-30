@@ -4,7 +4,10 @@ use piece::Piece;
 
 use crate::{game::piece::Kind, input::Input};
 
-mod piece;
+const WIDTH: usize = 8;
+const HEIGHT: usize = 8;
+
+pub mod piece;
 
 #[derive(Copy, Clone, PartialEq)]
 pub enum Cell {
@@ -12,11 +15,8 @@ pub enum Cell {
     Filled(Kind),
 }
 
-const WIDTH: usize = 8;
-const HEIGHT: usize = 8;
-
 pub struct Game {
-    board: [[Cell; 8]; 8],
+    board: [[Cell; WIDTH]; HEIGHT],
     piece: Piece,
     gravity_timer: Duration,
     gravity_interval: Duration,
