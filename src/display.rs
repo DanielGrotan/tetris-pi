@@ -37,13 +37,13 @@ impl Display {
 
         if game.is_game_over() {
             for x in 0..8 {
-                rows[0][x] = PixelColor::RED;
-                rows[7][x] = PixelColor::RED;
+                rows[0][x] = PixelColor::WHITE;
+                rows[7][x] = PixelColor::WHITE;
             }
 
             for y in 0..8 {
-                rows[y][0] = PixelColor::RED;
-                rows[y][7] = PixelColor::RED;
+                rows[y][0] = PixelColor::WHITE;
+                rows[y][7] = PixelColor::WHITE;
             }
         }
 
