@@ -7,7 +7,7 @@ use crate::{game::piece::Kind, input::Input};
 mod piece;
 
 #[derive(Copy, Clone, PartialEq)]
-enum Cell {
+pub enum Cell {
     Empty,
     Filled(Kind),
 }

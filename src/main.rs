@@ -3,8 +3,9 @@ use std::{
     time::{Duration, Instant},
 };
 
-use crate::game::Game;
+use crate::{display::Display, game::Game};
 
+mod display;
 mod game;
 mod input;
 
@@ -13,6 +14,8 @@ fn main() {
 
     let mut game = Game::new();
     let mut last_updated = Instant::now();
+
+    let mut display = Display::new();
 
     loop {
         loop {
@@ -28,6 +31,8 @@ fn main() {
 
         game.update(dt);
         last_updated = now;
+
+        display.render(&game);
 
         thread::sleep(Duration::from_millis(16));
     }
