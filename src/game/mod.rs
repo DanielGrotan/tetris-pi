@@ -32,7 +32,7 @@ impl Game {
             piece: Piece::new(Kind::T, 4, 0),
             bag: Vec::new(),
             gravity_timer: Duration::ZERO,
-            gravity_interval: Duration::from_secs(1),
+            gravity_interval: Duration::from_secs(2),
             game_over: false,
         };
 
@@ -52,9 +52,7 @@ impl Game {
             self.gravity_timer -= self.gravity_interval;
 
             if !self.move_piece(0, 1) {
-                self.lock_piece();
-                self.clear_lines();
-                self.spawn_piece();
+                self.lock_and_spawn();
             }
         }
     }
@@ -124,9 +122,7 @@ impl Game {
     fn hard_drop(&mut self) {
         while self.move_piece(0, 1) {}
 
-        self.lock_piece();
-        self.clear_lines();
-        self.spawn_piece();
+        self.lock_and_spawn();
     }
 
     fn can_place(&self, piece: &Piece) -> bool {
@@ -203,6 +199,13 @@ impl Game {
         self.gravity_timer = Duration::ZERO;
         self.game_over = false;
 
+        self.spawn_piece();
+    }
+
+    fn lock_and_spawn(&mut self) {
+        self.lock_piece();
+        self.clear_lines();
+        self.gravity_timer = Duration::ZERO;
         self.spawn_piece();
     }
 }
