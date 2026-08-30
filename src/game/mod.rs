@@ -1,6 +1,7 @@
 use std::time::Duration;
 
 use piece::Piece;
+use rand::seq::SliceRandom;
 
 use crate::{game::piece::Kind, input::Input};
 
@@ -18,18 +19,24 @@ pub enum Cell {
 pub struct Game {
     board: [[Cell; WIDTH]; HEIGHT],
     piece: Piece,
+    bag: Vec<Kind>,
     gravity_timer: Duration,
     gravity_interval: Duration,
 }
 
 impl Game {
     pub fn new() -> Self {
-        Self {
+        let mut game = Self {
             board: [[Cell::Empty; WIDTH]; HEIGHT],
             piece: Piece::new(Kind::T, 4, 0),
+            bag: Vec::new(),
             gravity_timer: Duration::ZERO,
             gravity_interval: Duration::from_secs(1),
-        }
+        };
+
+        game.spawn_piece();
+
+        game
     }
 
     pub fn update(&mut self, dt: Duration) {
@@ -142,6 +149,26 @@ impl Game {
     }
 
     fn spawn_piece(&mut self) {
-        self.piece = Piece::new(Kind::T, 4, 0);
+        let kind = self.next_kind();
+        self.piece = Piece::new(kind, 4, 0);
+    }
+
+    fn next_kind(&mut self) -> Kind {
+        if self.bag.is_empty() {
+            self.bag = vec![
+                Kind::I,
+                Kind::O,
+                Kind::T,
+                Kind::S,
+                Kind::Z,
+                Kind::J,
+                Kind::L,
+            ];
+
+            let mut rng = rand::rng();
+            self.bag.shuffle(&mut rng);
+        }
+
+        self.bag.pop().unwrap()
     }
 }
