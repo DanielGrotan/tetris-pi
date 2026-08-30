@@ -28,7 +28,7 @@ impl Game {
             board: [[Cell::Empty; WIDTH]; HEIGHT],
             piece: Piece::new(Kind::T, 4, 0),
             gravity_timer: Duration::ZERO,
-            gravity_interval: Duration::from_millis(500),
+            gravity_interval: Duration::from_secs(1),
         }
     }
 
@@ -58,7 +58,7 @@ impl Game {
                 self.move_piece(-1, 0);
             }
             Input::Right => {
-                self.move_piece(0, 1);
+                self.move_piece(1, 0);
             }
             Input::Press => {
                 self.hard_drop();
