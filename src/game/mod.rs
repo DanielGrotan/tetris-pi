@@ -115,7 +115,23 @@ impl Game {
         piece.rotate();
 
         if self.can_place(&piece) {
-            self.piece = piece
+            self.piece = piece;
+            return;
+        }
+
+        const KICKS: [(i32, i32); 4] = [(-1, 0), (1, 0), (0, -1), (0, 1)];
+
+        for (dx, dy) in KICKS {
+            piece.x += dx;
+            piece.y += dy;
+
+            if self.can_place(&piece) {
+                self.piece = piece;
+                return;
+            }
+
+            piece.x -= dx;
+            piece.y -= dy;
         }
     }
 
